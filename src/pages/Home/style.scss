@@ -36,249 +36,453 @@
 .homepage .top-project-image {
   height: 100%;
 }
-
-.homepage .top-project-name {
-  font-size: 1rem;
-}
-
-.homepage .rdt_TableRow {
-  padding: 10px;
-}
-
-.top-project-title {
-  height: 36px;
-
-  @supports (-webkit-line-clamp: 2) {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: initial;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-}
-
-.homepage {
-  .columns {
-    text-align: center;
-    .logo-text {
-      font-size: 8rem;
-      height: 220px;
-    }
-  }
-}
-
-.slogan-container {
+.mint-container {
+  height: 85%;
   display: flex;
   justify-content: center;
 }
-
-.flip-container {
-  height: 44px;
-  margin: 0 10px;
-  overflow: hidden;
-  li {
-    text-transform: uppercase;
-    padding: 0 10px;
-    height: 45px;
-    margin-bottom: 45px;
-  }
+.mint-box {
+  display: flex;
+  height: 60%;
+  width: 20%;
+  align-self: center;
+  background-color: grayscale($color: #e6e3e3);
+  box-shadow: 5px 5px 5px 5px rgba(50, 46, 46, 0.2);
+  border-radius: 10px;
+  transition: all 0.6s;
+}
+.mint-box:hover {
+  transition: all 0.6s;
+  transform: scale(
+    1.1
+  ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+.image-uploader {
+  width: 420px;
+  margin: 40px 0;
 }
 
-.flip-items {
-  animation: flip-animation 10s cubic-bezier(0.23, 1, 0.32, 1.2) infinite;
-}
-
-@keyframes flip-animation {
-  0% {
-    margin-top: -360px;
-  }
-  5% {
-    margin-top: -270px;
-  }
-  25% {
-    margin-top: -270px;
-  }
-  30% {
-    margin-top: -180px;
-  }
-  50% {
-    margin-top: -180px;
-  }
-  55% {
-    margin-top: -90px;
-  }
-  75% {
-    margin-top: -90px;
-  }
-  80% {
-    margin-top: 0px;
-  }
-  99.99% {
-    margin-top: 0px;
-  }
-  100% {
-    margin-top: -270px;
-  }
-}
-
-.firstLine {
-  font-size: 36px;
-}
-
-.secondLine {
-  font-size: 42px;
-  line-height: 32px;
-  font-weight: bolder;
-}
-
-.thirdLine {
-  font-size: 36px;
-  line-height: 28px;
-}
-
-.fourthLine {
+.image-uploader-container {
+  width: 420px;
+  height: 240px;
+  margin: 20px auto;
+  background-color: whitesmoke;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  background-image: url(http://svgshare.com/i/3R5.svg);
+  display: flex;
   position: relative;
-  font-size: 16px;
-  font-weight: bold;
-  top: -10px;
 }
 
-$badge-color: #00d1b2;
-
-.badges {
+.image-uploader-container::before {
+  background-color: rgba(0, 0, 0, 0.4);
   position: absolute;
-  top: 100px;
-  right: 50px;
-  width: 200px;
-  height: 200px;
-  color: #eee;
-  background: $badge-color;
-  border-radius: 100%;
-  line-height: 32px;
-  text-align: center;
-  text-transform: uppercase;
-  -webkit-animation: 3s ease-in-out 0s normal none infinite running swing;
-  -moz-animation: 3s ease-in-out 0s normal none infinite running swing;
-  -o-animation: 3s ease-in-out 0s normal none infinite running swing;
-  animation: 3s ease-in-out 0s normal none infinite running swing;
-
-  -webkit-transform-origin: 100px -71px;
-  -moz-transform-origin: 100px -71px;
-  -o-transform-origin: 100px -71px;
-  transform-origin: 100px -71px;
-}
-.badges:before {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   content: "";
+  display: block;
+}
+
+.image-upload-button-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-upload-button {
   position: absolute;
-  top: 90px;
-  left: 90px;
-  width: 20px;
-  height: 20px;
-  border-radius: 100%;
-  -webkit-box-shadow: 0px -82px 0px -2px #eee, 0px -100px $badge-color,
-    20px -98px $badge-color, 39px -94px $badge-color, 56px -85px $badge-color,
-    71px -72px $badge-color, 83px -57px $badge-color, 93px -40px $badge-color,
-    98px -20px $badge-color, 100px 0px $badge-color, -20px -98px $badge-color,
-    -39px -94px $badge-color, -71px -72px $badge-color, -56px -85px $badge-color,
-    -83px -57px $badge-color, -93px -40px $badge-color, -98px -20px $badge-color,
-    -100px 0px $badge-color, 0px 100px $badge-color, -20px 98px $badge-color,
-    -39px 94px $badge-color, -56px 85px $badge-color, -71px 72px $badge-color,
-    -83px 57px $badge-color, -93px -40px $badge-color, -98px 20px $badge-color,
-    -93px 40px $badge-color, 20px 98px $badge-color, 39px 94px $badge-color,
-    56px 85px $badge-color, 71px 72px $badge-color, 83px 57px $badge-color,
-    93px 40px $badge-color, 98px 20px $badge-color;
+  left: 0;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  cursor: pointer;
+}
 
-  -moz-box-shadow: 0px -82px 0px -2px #eee, 0px -100px $badge-color,
-    20px -98px $badge-color, 39px -94px $badge-color, 56px -85px $badge-color,
-    71px -72px $badge-color, 83px -57px $badge-color, 93px -40px $badge-color,
-    98px -20px $badge-color, 100px 0px $badge-color, -20px -98px $badge-color,
-    -39px -94px $badge-color, -71px -72px $badge-color, -56px -85px $badge-color,
-    -83px -57px $badge-color, -93px -40px $badge-color, -98px -20px $badge-color,
-    -100px 0px $badge-color, 0px 100px $badge-color, -20px 98px $badge-color,
-    -39px 94px $badge-color, -56px 85px $badge-color, -71px 72px $badge-color,
-    -83px 57px $badge-color, -93px -40px $badge-color, -98px 20px $badge-color,
-    -93px 40px $badge-color, 20px 98px $badge-color, 39px 94px $badge-color,
-    56px 85px $badge-color, 71px 72px $badge-color, 83px 57px $badge-color,
-    93px 40px $badge-color, 98px 20px $badge-color;
+.image-upload-preview {
+  height: 100%;
+  background-size: cover;
+  // background-color: black
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+  flex: 1;
+}
 
-  -o-box-shadow: 0px -82px 0px -2px #eee, 0px -100px $badge-color,
-    20px -98px $badge-color, 39px -94px $badge-color, 56px -85px $badge-color,
-    71px -72px $badge-color, 83px -57px $badge-color, 93px -40px $badge-color,
-    98px -20px $badge-color, 100px 0px $badge-color, -20px -98px $badge-color,
-    -39px -94px $badge-color, -71px -72px $badge-color, -56px -85px $badge-color,
-    -83px -57px $badge-color, -93px -40px $badge-color, -98px -20px $badge-color,
-    -100px 0px $badge-color, 0px 100px $badge-color, -20px 98px $badge-color,
-    -39px 94px $badge-color, -56px 85px $badge-color, -71px 72px $badge-color,
-    -83px 57px $badge-color, -93px -40px $badge-color, -98px 20px $badge-color,
-    -93px 40px $badge-color, 20px 98px $badge-color, 39px 94px $badge-color,
-    56px 85px $badge-color, 71px 72px $badge-color, 83px 57px $badge-color,
-    93px 40px $badge-color, 98px 20px $badge-color;
+.image-upload-button-view-full {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image-thumbnails {
+  display: flex;
+  flex-flow: row wrap;
+  // margin: 0 -5px}
 
-  box-shadow: 0px -82px 0px -2px #eee, 0px -100px $badge-color,
-    20px -98px $badge-color, 39px -94px $badge-color, 56px -85px $badge-color,
-    71px -72px $badge-color, 83px -57px $badge-color, 93px -40px $badge-color,
-    98px -20px $badge-color, 100px 0px $badge-color, -20px -98px $badge-color,
-    -39px -94px $badge-color, -71px -72px $badge-color, -56px -85px $badge-color,
-    -83px -57px $badge-color, -93px -40px $badge-color, -98px -20px $badge-color,
-    -100px 0px $badge-color, 0px 100px $badge-color, -20px 98px $badge-color,
-    -39px 94px $badge-color, -56px 85px $badge-color, -71px 72px $badge-color,
-    -83px 57px $badge-color, -93px -40px $badge-color, -98px 20px $badge-color,
-    -93px 40px $badge-color, 20px 98px $badge-color, 39px 94px $badge-color,
-    56px 85px $badge-color, 71px 72px $badge-color, 83px 57px $badge-color,
-    93px 40px $badge-color, 98px 20px $badge-color;
-}
-.badges:after {
-  content: "";
-  position: absolute;
-  top: -70px;
-  left: 99px;
-  width: 2px;
-  height: 81px;
-  border-radius: 0%;
-  background: #eee;
-}
-@-webkit-keyframes swing {
-  0% {
-    -webkit-transform: rotate(5deg);
+  .image-thumbnail {
+    height: 60px;
+    width: 60px;
+    background-size: cover;
+    background-position: center center;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 5px;
+    cursor: pointer;
+    background-color: #222c2f;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   }
-  50% {
-    -webkit-transform: rotate(-5deg);
+
+  .image-thumbnail-selected {
+    box-shadow: 0 0 0px 2px #4d90fe;
+    transform: scale(1.1, 1.1);
   }
-  100% {
-    -webkit-transform: rotate(5deg);
+  .image-preview-index {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 8px;
+    padding: 4px 6px;
+    font-size: 10px;
+    line-height: 9px;
+    z-index: 10;
   }
-}
-@-moz-keyframes swing {
-  0% {
-    -moz-transform: rotate(5deg);
+
+  .image-preview-overlay {
+    position: absolute;
+    top: 60%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to top,
+      black 0%,
+      rgba(0, 0, 0, 0.5) 40%,
+      rgba(0, 0, 0, 0)
+    );
+    opacity: 0.6;
+    transition: opacity 0.2s ease-in-out;
   }
-  50% {
-    -moz-transform: rotate(-5deg);
+
+  .image-upload-preview:hover .image-preview-overlay {
+    opacity: 1;
   }
-  100% {
-    -moz-transform: rotate(5deg);
+
+  .image-action-buttons {
+    padding: 10px;
+    width: 50px;
+    background-color: #222c2f;
+    z-index: 1;
   }
-}
-@-o-keyframes swing {
-  0% {
-    -o-transform: rotate(5deg);
+
+  .image-action-button {
+    height: 30px;
+    width: 100%;
+    text-align: center;
+    background-color: transparent;
+    color: white;
+    font-size: 14px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
   }
-  50% {
-    -o-transform: rotate(-5deg);
+
+  .image-action-button:hover {
+    color: #36b6f2;
   }
-  100% {
-    -o-transform: rotate(5deg);
+
+  .image-navigation-buttons {
+    position: absolute;
+    top: 40%;
+    bottom: 40%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
   }
-}
-@keyframes swing {
-  0% {
-    transform: rotate(5deg);
+
+  .image-navigation-button {
+    width: 30px;
+    height: 30px;
+    margin: auto 10px;
+    border-radius: 50%;
+    line-height: 28px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    outline: none;
+    border: none;
+    opacity: 0.5;
+    cursor: pointer;
+    transform: scale(1);
+    transition: opacity 0.2s ease-in-out, padding 0.2s ease-in-out;
   }
-  50% {
-    transform: rotate(-5deg);
+  .image-upload-preview:hover .image-navigation-button {
+    opacity: 1;
   }
-  100% {
-    transform: rotate(5deg);
+
+  .image-navigation-button:first-child {
+    padding-right: 8px;
+  }
+
+  .image-navigation-button:last-child {
+    padding-left: 8px;
+  }
+
+  .homepage .top-project-name {
+    font-size: 1rem;
+  }
+
+  .homepage .rdt_TableRow {
+    padding: 10px;
+  }
+
+  .top-project-title {
+    height: 36px;
+
+    @supports (-webkit-line-clamp: 2) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: initial;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .homepage {
+    .columns {
+      text-align: center;
+      .logo-text {
+        font-size: 8rem;
+        height: 220px;
+      }
+    }
+  }
+
+  .slogan-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .flip-container {
+    height: 44px;
+    margin: 0 10px;
+    overflow: hidden;
+    align-items: center;
+    li {
+      text-transform: uppercase;
+      padding: 0 10px;
+      height: 45px;
+      margin-bottom: 45px;
+    }
+  }
+
+  .flip-items {
+    animation: flip-animation 10s cubic-bezier(0.23, 1, 0.32, 1.2) infinite;
+  }
+
+  @keyframes flip-animation {
+    0% {
+      margin-top: -360px;
+    }
+    5% {
+      margin-top: -270px;
+    }
+    25% {
+      margin-top: -270px;
+    }
+    30% {
+      margin-top: -180px;
+    }
+    50% {
+      margin-top: -180px;
+    }
+    55% {
+      margin-top: -90px;
+    }
+    75% {
+      margin-top: -90px;
+    }
+    80% {
+      margin-top: 0px;
+    }
+    99.99% {
+      margin-top: 0px;
+    }
+    100% {
+      margin-top: -270px;
+    }
+  }
+
+  .firstLine {
+    font-size: 36px;
+  }
+
+  .secondLine {
+    font-size: 42px;
+    line-height: 32px;
+    font-weight: bolder;
+  }
+
+  .thirdLine {
+    font-size: 36px;
+    line-height: 28px;
+  }
+
+  .fourthLine {
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
+    top: -10px;
+  }
+
+  $badge-color: #00d1b2;
+
+  .badges {
+    position: absolute;
+    top: 100px;
+    right: 50px;
+    width: 200px;
+    height: 200px;
+    color: #eee;
+    background: $badge-color;
+    border-radius: 100%;
+    line-height: 32px;
+    text-align: center;
+    text-transform: uppercase;
+    -webkit-animation: 3s ease-in-out 0s normal none infinite running swing;
+    -moz-animation: 3s ease-in-out 0s normal none infinite running swing;
+    -o-animation: 3s ease-in-out 0s normal none infinite running swing;
+    animation: 3s ease-in-out 0s normal none infinite running swing;
+
+    -webkit-transform-origin: 100px -71px;
+    -moz-transform-origin: 100px -71px;
+    -o-transform-origin: 100px -71px;
+    transform-origin: 100px -71px;
+  }
+  .badges:before {
+    content: "";
+    position: absolute;
+    top: 90px;
+    left: 90px;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    -webkit-box-shadow: 0px -82px 0px -2px #eee, 0px -100px $badge-color,
+      20px -98px $badge-color, 39px -94px $badge-color, 56px -85px $badge-color,
+      71px -72px $badge-color, 83px -57px $badge-color, 93px -40px $badge-color,
+      98px -20px $badge-color, 100px 0px $badge-color, -20px -98px $badge-color,
+      -39px -94px $badge-color, -71px -72px $badge-color,
+      -56px -85px $badge-color, -83px -57px $badge-color,
+      -93px -40px $badge-color, -98px -20px $badge-color,
+      -100px 0px $badge-color, 0px 100px $badge-color, -20px 98px $badge-color,
+      -39px 94px $badge-color, -56px 85px $badge-color, -71px 72px $badge-color,
+      -83px 57px $badge-color, -93px -40px $badge-color, -98px 20px $badge-color,
+      -93px 40px $badge-color, 20px 98px $badge-color, 39px 94px $badge-color,
+      56px 85px $badge-color, 71px 72px $badge-color, 83px 57px $badge-color,
+      93px 40px $badge-color, 98px 20px $badge-color;
+
+    -moz-box-shadow: 0px -82px 0px -2px #eee, 0px -100px $badge-color,
+      20px -98px $badge-color, 39px -94px $badge-color, 56px -85px $badge-color,
+      71px -72px $badge-color, 83px -57px $badge-color, 93px -40px $badge-color,
+      98px -20px $badge-color, 100px 0px $badge-color, -20px -98px $badge-color,
+      -39px -94px $badge-color, -71px -72px $badge-color,
+      -56px -85px $badge-color, -83px -57px $badge-color,
+      -93px -40px $badge-color, -98px -20px $badge-color,
+      -100px 0px $badge-color, 0px 100px $badge-color, -20px 98px $badge-color,
+      -39px 94px $badge-color, -56px 85px $badge-color, -71px 72px $badge-color,
+      -83px 57px $badge-color, -93px -40px $badge-color, -98px 20px $badge-color,
+      -93px 40px $badge-color, 20px 98px $badge-color, 39px 94px $badge-color,
+      56px 85px $badge-color, 71px 72px $badge-color, 83px 57px $badge-color,
+      93px 40px $badge-color, 98px 20px $badge-color;
+
+    -o-box-shadow: 0px -82px 0px -2px #eee, 0px -100px $badge-color,
+      20px -98px $badge-color, 39px -94px $badge-color, 56px -85px $badge-color,
+      71px -72px $badge-color, 83px -57px $badge-color, 93px -40px $badge-color,
+      98px -20px $badge-color, 100px 0px $badge-color, -20px -98px $badge-color,
+      -39px -94px $badge-color, -71px -72px $badge-color,
+      -56px -85px $badge-color, -83px -57px $badge-color,
+      -93px -40px $badge-color, -98px -20px $badge-color,
+      -100px 0px $badge-color, 0px 100px $badge-color, -20px 98px $badge-color,
+      -39px 94px $badge-color, -56px 85px $badge-color, -71px 72px $badge-color,
+      -83px 57px $badge-color, -93px -40px $badge-color, -98px 20px $badge-color,
+      -93px 40px $badge-color, 20px 98px $badge-color, 39px 94px $badge-color,
+      56px 85px $badge-color, 71px 72px $badge-color, 83px 57px $badge-color,
+      93px 40px $badge-color, 98px 20px $badge-color;
+
+    box-shadow: 0px -82px 0px -2px #eee, 0px -100px $badge-color,
+      20px -98px $badge-color, 39px -94px $badge-color, 56px -85px $badge-color,
+      71px -72px $badge-color, 83px -57px $badge-color, 93px -40px $badge-color,
+      98px -20px $badge-color, 100px 0px $badge-color, -20px -98px $badge-color,
+      -39px -94px $badge-color, -71px -72px $badge-color,
+      -56px -85px $badge-color, -83px -57px $badge-color,
+      -93px -40px $badge-color, -98px -20px $badge-color,
+      -100px 0px $badge-color, 0px 100px $badge-color, -20px 98px $badge-color,
+      -39px 94px $badge-color, -56px 85px $badge-color, -71px 72px $badge-color,
+      -83px 57px $badge-color, -93px -40px $badge-color, -98px 20px $badge-color,
+      -93px 40px $badge-color, 20px 98px $badge-color, 39px 94px $badge-color,
+      56px 85px $badge-color, 71px 72px $badge-color, 83px 57px $badge-color,
+      93px 40px $badge-color, 98px 20px $badge-color;
+  }
+  .badges:after {
+    content: "";
+    position: absolute;
+    top: -70px;
+    left: 99px;
+    width: 2px;
+    height: 81px;
+    border-radius: 0%;
+    background: #eee;
+  }
+  @-webkit-keyframes swing {
+    0% {
+      -webkit-transform: rotate(5deg);
+    }
+    50% {
+      -webkit-transform: rotate(-5deg);
+    }
+    100% {
+      -webkit-transform: rotate(5deg);
+    }
+  }
+  @-moz-keyframes swing {
+    0% {
+      -moz-transform: rotate(5deg);
+    }
+    50% {
+      -moz-transform: rotate(-5deg);
+    }
+    100% {
+      -moz-transform: rotate(5deg);
+    }
+  }
+  @-o-keyframes swing {
+    0% {
+      -o-transform: rotate(5deg);
+    }
+    50% {
+      -o-transform: rotate(-5deg);
+    }
+    100% {
+      -o-transform: rotate(5deg);
+    }
+  }
+  @keyframes swing {
+    0% {
+      transform: rotate(5deg);
+    }
+    50% {
+      transform: rotate(-5deg);
+    }
+    100% {
+      transform: rotate(5deg);
+    }
   }
 }

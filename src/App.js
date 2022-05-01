@@ -7,7 +7,7 @@ import RenderRoutes from "routes";
 
 import { load_collection } from "store/collection/api";
 import { clear_error } from "store/error/errorActions";
-
+import { MoralisProvider } from "react-moralis";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css";
 import "./App.css";
@@ -25,36 +25,41 @@ const App = () => {
   }, [state_collection.loaded, state_collection.loading]);
 
   return (
-    <ErrorBoundary
-      FallbackComponent={ErrorHandler}
-      onReset={() => history.push("/")}
+    <MoralisProvider
+      appId="5I5wvYZbtssFnJq7pZASIfGojNFQHjHtVifRKQtY"
+      serverUrl="https://k7ciakafhjvc.usemoralis.com:2053/server"
     >
-      <RenderRoutes />
-      <SweetAlert
-        title=""
-        show={state_error.show}
-        error
-        confirmBtnText="Oops!"
-        onConfirm={() => dispatch(clear_error())}
-        confirmBtnCssClass="button is-danger"
+      <ErrorBoundary
+        FallbackComponent={ErrorHandler}
+        onReset={() => history.push("/")}
       >
-        {state_error.message}
-      </SweetAlert>
-    </ErrorBoundary>
+        <RenderRoutes />
+        <SweetAlert
+          title=""
+          show={state_error.show}
+          error
+          confirmBtnText="Oops!"
+          onConfirm={() => dispatch(clear_error())}
+          confirmBtnCssClass="button is-danger"
+        >
+          {state_error.message}
+        </SweetAlert>
+      </ErrorBoundary>
+    </MoralisProvider>
   );
 };
 
 const ErrorHandler = ({ error, componentStack, resetErrorBoundary }) => {
   return (
     <SweetAlert
-        show
-        error
-        title="Oops!"
-        confirmBtnText="Go To Homepage"
-        onConfirm={resetErrorBoundary}
-        confirmBtnCssClass="button is-danger"
-      >
-        An error occured while attempting to display this page.
+      show
+      error
+      title="Oops!"
+      confirmBtnText="Go To Homepage"
+      onConfirm={resetErrorBoundary}
+      confirmBtnCssClass="button is-danger"
+    >
+      An error occured while attempting to display this page.
     </SweetAlert>
   );
 };

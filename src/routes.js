@@ -10,16 +10,16 @@ import {
   Guide,
   GuideBuy,
   GuideSell,
-  Explore
-} from 'pages'
+  Explore,
+} from "pages";
 
 import { MainLayout } from "layouts";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css";
+import Mint from "pages/Mint/Mint";
 
 const RenderRoutes = () => {
-
   return (
     <Switch>
       <Route exact path="/">
@@ -50,6 +50,11 @@ const RenderRoutes = () => {
       <Route exact path="/about">
         <MainLayout>
           <About />
+        </MainLayout>
+      </Route>
+      <Route exact path="/mint">
+        <MainLayout>
+          <Mint />
         </MainLayout>
       </Route>
       <Route exact path="/guide">

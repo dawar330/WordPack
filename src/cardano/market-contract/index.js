@@ -1,7 +1,7 @@
 import Cardano from "../serialization-lib";
 import ErrorTypes from "./error.types";
 import { serializeSale, deserializeSale } from "./datums";
-import { BUYER, SELLER } from "./redeemers";
+import { BUYER, MINT, SELLER } from "./redeemers";
 import { contractAddress, contractScripts } from "./validator";
 import {
   assetsToValue,
@@ -12,6 +12,82 @@ import {
 } from "../transaction";
 import { toHex } from "../../utils/converter";
 
+export const MintAsset = async (seller: {
+  address: BaseAddress,
+  utxos: [],
+}) => {
+  try {
+    const { txBuilder, outputs } = initializeTx();
+    const utxos = seller.utxos.map((utxo) => serializeTxUnspentOutput(utxo));
+    const nativeScripts = Cardano.Instance.NativeScripts.new();
+    const script = Cardano.Instance.ScriptPubkey.new(
+      seller.address.payment_cred().to_keyhash()
+    );
+    console.log(script);
+    const nativeScript =
+      Cardano.Instance.NativeScript.new_script_pubkey(script);
+    // const appScript = Cardano.Instance.ScriptPubkey.new(appKeyHash);
+    // const appNativeScript =
+    //   Cardano.Instance.NativeScript.new_script_pubkey(appScript);
+
+    // const lockScript = Cardano.Instance.NativeScript.new_timelock_expiry(
+    //   Cardano.Instance.TimelockExpiry.new(ttl)
+    // );
+    nativeScripts.add(nativeScript);
+    // nativeScripts.add(appNativeScript);
+    // nativeScripts.add(lockScript);
+
+    const finalScript = Cardano.Instance.NativeScript.new_script_all(
+      Cardano.Instance.ScriptAll.new(nativeScripts)
+    );
+    const policyId = Buffer.from(
+      Cardano.Instance.ScriptHash.from_bytes(
+        finalScript.hash().to_bytes()
+      ).to_bytes(),
+      "hex"
+    ).toString("hex");
+    console.log(policyId);
+    const MintAssets = Cardano.Instance.MintAssets.new();
+    const assetName = Cardano.Instance.AssetName.new(
+      Buffer.from("assetNameStr", "utf8")
+    );
+    const assetNumber = Cardano.Instance.Int.new_i32(1);
+    MintAssets.insert(assetName, assetNumber);
+    const mint = Cardano.Instance.Mint.new();
+    mint.insert(
+      Cardano.Instance.ScriptHash.from_bytes(finalScript.hash().to_bytes()),
+      MintAssets
+    );
+
+    // outputs.add(
+    //   createTxOutput(
+    //     seller.address.to_address(),
+    //     assetsToValue([
+    //       {
+    //         unit: `${policyId}assetNameStr`,
+    //         quantity: "1",
+    //       },
+    //       { unit: "lovelace", quantity: "2000000" },
+    //     ])
+    //   )
+    // );
+    const txHash = await finalizeTx({
+      txBuilder,
+      utxos,
+      outputs,
+      changeAddress: seller.address,
+      metadata: {},
+      mint: mint,
+      NativeScript: nativeScripts,
+      action: MINT,
+      seller,
+      policyId,
+    });
+    return txHash;
+  } catch (error) {
+    console.log(error, "MintAsset");
+  }
+};
 export const listAsset = async (
   datum,
   seller: { address: BaseAddress, utxos: [] },

@@ -75,6 +75,10 @@ export const finalizeTx = async ({
   action,
   assetUtxo,
   plutusScripts,
+  mint,
+  NativeScript,
+  policyId,
+  seller,
 }) => {
   const Parameters = getProtocolParameters();
   const transactionWitnessSet = Cardano.Instance.TransactionWitnessSet.new();
@@ -105,9 +109,20 @@ export const finalizeTx = async ({
   for (let i = 0; i < outputs.len(); i++) {
     txBuilder.add_output(outputs.get(i));
   }
+  if (mint) {
+    var redeemers = Cardano.Instance.Redeemers.new();
+    redeemers.add(action("0"));
+    txBuilder.set_redeemers(
+      Cardano.Instance.Redeemers.from_bytes(redeemers.to_bytes())
+    );
+    txBuilder.set_redeemers(
+      Cardano.Instance.Redeemers.from_bytes(redeemers.to_bytes())
+    );
+    transactionWitnessSet.set_redeemers(redeemers);
+    transactionWitnessSet.set_native_scripts(NativeScript);
+  }
 
   if (plutusScripts) {
-    const redeemers = Cardano.Instance.Redeemers.new();
     const redeemerIndex = txBuilder
       .index_of_input(assetUtxo.input())
       .toString();
@@ -207,7 +222,23 @@ export const finalizeTx = async ({
   }
 
   const txBody = txBuilder.build();
+  debugger;
 
+  if (mint) {
+    txBody.set_mint(mint);
+    txBody.outputs().add(
+      createTxOutput(
+        seller.address.to_address(),
+        assetsToValue([
+          {
+            unit: `${policyId}assetNameStr`,
+            quantity: "1",
+          },
+          { unit: "lovelace", quantity: "2000000" },
+        ])
+      )
+    );
+  }
   const tx = Cardano.Instance.Transaction.new(
     txBody,
     Cardano.Instance.TransactionWitnessSet.from_bytes(
@@ -215,7 +246,6 @@ export const finalizeTx = async ({
     ),
     aux_data
   );
-
   const size = tx.to_bytes().length;
   if (size > Parameters.maxTxSize) throw new Error(ErrorTypes.MAX_SIZE_REACHED);
 
@@ -224,6 +254,7 @@ export const finalizeTx = async ({
     fromHex(txVkeyWitnesses)
   );
 
+  debugger;
   transactionWitnessSet.set_vkeys(txVkeyWitnesses.vkeys());
 
   const signedTx = Cardano.Instance.Transaction.new(
@@ -231,7 +262,7 @@ export const finalizeTx = async ({
     transactionWitnessSet,
     tx.auxiliary_data()
   );
-
+  console.log("subiming");
   const txHash = await Wallet.submitTx(toHex(signedTx.to_bytes()));
 
   return txHash;

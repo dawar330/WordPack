@@ -37,6 +37,9 @@ const Navbar = () => {
           <Link className="navbar-item" to="/about">
             About Us
           </Link>
+          <Link className="navbar-item" to="/mint">
+            Mint NFTS
+          </Link>
         </div>
 
         <div className="navbar-end">
