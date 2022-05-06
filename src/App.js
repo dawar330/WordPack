@@ -7,7 +7,6 @@ import RenderRoutes from "routes";
 
 import { load_collection } from "store/collection/api";
 import { clear_error } from "store/error/errorActions";
-import { MoralisProvider } from "react-moralis";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css";
 import "./App.css";
@@ -25,27 +24,22 @@ const App = () => {
   }, [state_collection.loaded, state_collection.loading]);
 
   return (
-    <MoralisProvider
-      appId="5I5wvYZbtssFnJq7pZASIfGojNFQHjHtVifRKQtY"
-      serverUrl="https://k7ciakafhjvc.usemoralis.com:2053/server"
+    <ErrorBoundary
+      FallbackComponent={ErrorHandler}
+      onReset={() => history.push("/")}
     >
-      <ErrorBoundary
-        FallbackComponent={ErrorHandler}
-        onReset={() => history.push("/")}
+      <RenderRoutes />
+      <SweetAlert
+        title=""
+        show={state_error.show}
+        error
+        confirmBtnText="Oops!"
+        onConfirm={() => dispatch(clear_error())}
+        confirmBtnCssClass="button is-danger"
       >
-        <RenderRoutes />
-        <SweetAlert
-          title=""
-          show={state_error.show}
-          error
-          confirmBtnText="Oops!"
-          onConfirm={() => dispatch(clear_error())}
-          confirmBtnCssClass="button is-danger"
-        >
-          {state_error.message}
-        </SweetAlert>
-      </ErrorBoundary>
-    </MoralisProvider>
+        {state_error.message}
+      </SweetAlert>
+    </ErrorBoundary>
   );
 };
 

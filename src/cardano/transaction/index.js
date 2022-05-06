@@ -4,7 +4,7 @@ import ErrorTypes from "./error.types";
 import Wallet from "../wallet";
 import { languageViews } from "./languageViews";
 import { fromHex, toHex } from "../../utils/converter";
-
+import * as Cardanoo from "@emurgo/cardano-serialization-lib-asmjs";
 export const assetsToValue = (assets) => {
   const multiAsset = Cardano.Instance.MultiAsset.new();
   const lovelace = assets.find((asset) => asset.unit === "lovelace");
@@ -36,6 +36,31 @@ export const assetsToValue = (assets) => {
   );
   if (assets.length > 1 || !lovelace) value.set_multiasset(multiAsset);
   return value;
+};
+
+export const initializeTx10 = () => {
+  const metadata = {};
+  const Parameters = getProtocolParameters();
+  var TransactionBuilderConfig = Cardanoo.TransactionBuilderConfigBuilder.new()
+    .fee_algo(
+      Cardanoo.LinearFee.new(
+        Cardanoo.BigNum.from_str(Parameters.linearFee.minFeeA),
+        Cardanoo.BigNum.from_str(Parameters.linearFee.minFeeB)
+      )
+    )
+    .coins_per_utxo_word(Cardanoo.BigNum.from_str(Parameters.coinsPerUtxoWord))
+    .pool_deposit(Cardanoo.BigNum.from_str(Parameters.poolDeposit))
+    .key_deposit(Cardanoo.BigNum.from_str(Parameters.keyDeposit))
+    .max_value_size(Parameters.maxValSize)
+    .max_tx_size(Parameters.maxTxSize)
+    .build();
+
+  const txBuilder = Cardanoo.TransactionBuilder.new(TransactionBuilderConfig);
+  const datums = Cardanoo.PlutusList.new();
+
+  const outputs = Cardanoo.TransactionOutputs.new();
+
+  return { metadata, txBuilder, datums, outputs };
 };
 
 export const initializeTx = () => {
@@ -325,6 +350,18 @@ export const serializeTxUnspentOutput = (hexEncodedBytes) => {
   }
 };
 
+export const serializeTxUnspentOutput10 = (hexEncodedBytes) => {
+  try {
+    return Cardanoo.TransactionUnspentOutput.from_bytes(
+      fromHex(hexEncodedBytes)
+    );
+  } catch (error) {
+    console.error(
+      `Unexpected error in serializeTxUnspentOutput. [Message: ${error.message}]`
+    );
+    throw new Error(ErrorTypes.COULD_NOT_SERIALIZE_TRANSACTION_UNSPENT_OUTPUT);
+  }
+};
 export const valueToAssets = (value) => {
   const assets = [];
   assets.push({ unit: "lovelace", quantity: value.coin().to_str() });
@@ -348,36 +385,21 @@ export const valueToAssets = (value) => {
   return assets;
 };
 
-const getProtocolParameters = () => {
-  return parseInt(process.env.REACT_APP_CARDANO_NETWORK_ID) === 0
-    ? {
-        linearFee: {
-          minFeeA: "44",
-          minFeeB: "155381",
-        },
-        minUtxo: "34482",
-        poolDeposit: "500000000",
-        keyDeposit: "2000000",
-        maxValSize: 5000,
-        maxTxSize: 16384,
-        priceMem: 0.0577,
-        priceStep: 0.0000721,
-        coinsPerUtxoWord: "1000000",
-      }
-    : {
-        linearFee: {
-          minFeeA: "44",
-          minFeeB: "155381",
-        },
-        minUtxo: "34482",
-        poolDeposit: "500000000",
-        keyDeposit: "2000000",
-        maxValSize: 5000,
-        maxTxSize: 16384,
-        priceMem: 0.0577,
-        priceStep: 0.0000721,
-        coinsPerUtxoWord: "1000000",
-      };
+export const getProtocolParameters = () => {
+  return {
+    linearFee: {
+      minFeeA: "55",
+      minFeeB: "155381",
+    },
+    minUtxo: "34482",
+    poolDeposit: "500000000",
+    keyDeposit: "2000000",
+    maxValSize: 5000,
+    maxTxSize: 16384,
+    priceMem: 0.0577,
+    priceStep: 0.0000721,
+    coinsPerUtxoWord: "34482",
+  };
 };
 
 const setCollateral = (txBuilder, utxos) => {

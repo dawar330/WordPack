@@ -1,4 +1,5 @@
 import Cardano from "../serialization-lib";
+import * as Cardanoo from "@emurgo/cardano-serialization-lib-asmjs";
 import ErrorTypes from "./error.types";
 import { serializeSale, deserializeSale } from "./datums";
 import { BUYER, MINT, SELLER } from "./redeemers";
@@ -8,81 +9,107 @@ import {
   createTxOutput,
   finalizeTx,
   initializeTx,
+  initializeTx10,
   serializeTxUnspentOutput,
+  serializeTxUnspentOutput10,
 } from "../transaction";
-import { toHex } from "../../utils/converter";
+import { fromHex, toHex } from "../../utils/converter";
+import Wallet from "cardano/wallet";
 
-export const MintAsset = async (seller: {
-  address: BaseAddress,
-  utxos: [],
-}) => {
+export const MintAsset = async (
+  seller: {
+    address: BaseAddress,
+    utxos: [],
+  },
+  AssetName: String,
+  Quantity: String,
+  Author: String
+) => {
   try {
-    const { txBuilder, outputs } = initializeTx();
-    const utxos = seller.utxos.map((utxo) => serializeTxUnspentOutput(utxo));
-    const nativeScripts = Cardano.Instance.NativeScripts.new();
-    const script = Cardano.Instance.ScriptPubkey.new(
-      seller.address.payment_cred().to_keyhash()
-    );
-    console.log(script);
-    const nativeScript =
-      Cardano.Instance.NativeScript.new_script_pubkey(script);
-    // const appScript = Cardano.Instance.ScriptPubkey.new(appKeyHash);
-    // const appNativeScript =
-    //   Cardano.Instance.NativeScript.new_script_pubkey(appScript);
+    const { txBuilder } = initializeTx10();
+    const utxos = seller.utxos.map((utxo) => serializeTxUnspentOutput10(utxo));
 
-    // const lockScript = Cardano.Instance.NativeScript.new_timelock_expiry(
-    //   Cardano.Instance.TimelockExpiry.new(ttl)
-    // );
-    nativeScripts.add(nativeScript);
-    // nativeScripts.add(appNativeScript);
-    // nativeScripts.add(lockScript);
-
-    const finalScript = Cardano.Instance.NativeScript.new_script_all(
-      Cardano.Instance.ScriptAll.new(nativeScripts)
+    const nativeScripts = Cardanoo.NativeScripts.new();
+    const scriptPubkey = Cardanoo.NativeScript.new_script_pubkey(
+      Cardanoo.ScriptPubkey.new(seller.address.payment_cred().to_keyhash())
     );
-    const policyId = Buffer.from(
-      Cardano.Instance.ScriptHash.from_bytes(
-        finalScript.hash().to_bytes()
-      ).to_bytes(),
+
+    nativeScripts.add(scriptPubkey);
+
+    const policyId = Buffer.from(scriptPubkey.hash(0).to_bytes()).toString(
       "hex"
-    ).toString("hex");
-    console.log(policyId);
-    const MintAssets = Cardano.Instance.MintAssets.new();
-    const assetName = Cardano.Instance.AssetName.new(
-      Buffer.from("assetNameStr", "utf8")
     );
-    const assetNumber = Cardano.Instance.Int.new_i32(1);
+    const MintAssets = Cardanoo.MintAssets.new();
+    const assetName = Cardanoo.AssetName.new(Buffer.from(AssetName, "utf8"));
+    var assetNumber = Cardanoo.Int.new_i32(parseInt(Quantity));
+
     MintAssets.insert(assetName, assetNumber);
-    const mint = Cardano.Instance.Mint.new();
-    mint.insert(
-      Cardano.Instance.ScriptHash.from_bytes(finalScript.hash().to_bytes()),
-      MintAssets
+    assetNumber = Cardanoo.BigNum.from_str(Quantity);
+
+    const MultiAsset = Cardanoo.MultiAsset.new();
+    const Assets = Cardanoo.Assets.new();
+    Assets.insert(assetName, assetNumber);
+
+    MultiAsset.insert(scriptPubkey.hash(0), Assets);
+
+    // txBuilder.set_mint_asset(nativeScript, MintAssets);
+
+    txBuilder.add_mint_asset_and_output(
+      scriptPubkey,
+      assetName,
+      Cardanoo.Int.new_i32(Quantity),
+      Cardanoo.TransactionOutputBuilder.new()
+        .with_address(seller.address.to_address())
+        .next(),
+      Cardanoo.BigNum.from_str("1600000")
     );
 
-    // outputs.add(
-    //   createTxOutput(
-    //     seller.address.to_address(),
-    //     assetsToValue([
-    //       {
-    //         unit: `${policyId}assetNameStr`,
-    //         quantity: "1",
-    //       },
-    //       { unit: "lovelace", quantity: "2000000" },
-    //     ])
-    //   )
-    // );
-    const txHash = await finalizeTx({
-      txBuilder,
-      utxos,
-      outputs,
-      changeAddress: seller.address,
-      metadata: {},
-      mint: mint,
-      NativeScript: nativeScripts,
-      action: MINT,
-      seller,
-      policyId,
+    let aux_data = Cardanoo.AuxiliaryData.new();
+    const generalMetadata = Cardanoo.GeneralTransactionMetadata.new();
+    generalMetadata.insert(
+      Cardanoo.BigNum.from_str("721"),
+      Cardanoo.encode_json_str_to_metadatum(
+        JSON.stringify({
+          [policyId]: {
+            [AssetName]: {
+              image: "ipfs://QmfSW4Z7hTzP61SjFxp1a43eCxQBWmrY2CJqPULsrFmjhF",
+              name: AssetName,
+              Quantity,
+              Author,
+            },
+          },
+        }),
+        1
+      )
+    );
+
+    aux_data.set_metadata(generalMetadata);
+    aux_data.set_native_scripts(nativeScripts);
+    txBuilder.set_auxiliary_data(aux_data);
+    const inputs = Cardanoo.TransactionUnspentOutputs.new();
+
+    utxos.forEach((utxo) => {
+      inputs.add(utxo);
     });
+    txBuilder.add_inputs_from(inputs, 2);
+    // txBuilder.add_inputs_from(utxos, 2);
+
+    txBuilder.add_change_if_needed(seller.address.to_address());
+    const tx = txBuilder.build_tx();
+
+    let txVkeyWitnesses = await Wallet.signTx(toHex(tx.to_bytes()), true);
+
+    txVkeyWitnesses = Cardanoo.TransactionWitnessSet.from_bytes(
+      fromHex(txVkeyWitnesses)
+    );
+    txVkeyWitnesses.set_native_scripts(nativeScripts);
+
+    const signedTx = Cardanoo.Transaction.new(
+      tx.body(),
+      txVkeyWitnesses,
+      tx.auxiliary_data()
+    );
+    const txHash = await Wallet.submitTx(toHex(signedTx.to_bytes()));
     return txHash;
   } catch (error) {
     console.log(error, "MintAsset");

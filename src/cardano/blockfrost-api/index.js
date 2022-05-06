@@ -1,7 +1,6 @@
 import ErrorTypes from "./error.types";
-import { apiKey, cardanoUrl } from "../../config";
+import { apiKey, cardanoIPFSUrl, cardanoUrl, ipfsapiKey } from "../../config";
 import { fromHex, toString } from "../../utils/converter";
-
 /**
  * @param {string} asset - asset is a Concatenation of the policy_id and hex-encoded asset_name.
  * @throws COULD_NOT_FETCH_ASSET_DETAILS
@@ -75,6 +74,13 @@ export const getLockedUtxos = async (
       `Unexpected error in getLockedUtxos. [Message: ${error.message}]`
     );
     throw new Error(ErrorTypes.COULD_NOT_FETCH_ADDRESS_UTXOS);
+  }
+};
+export const addIpfs = async (file) => {
+  try {
+    return await cardanoipfs(`ipfs/add`, {}, file);
+  } catch (error) {
+    console.error(`Unexpected error in addIpfs. [Message: ${error.message}]`);
   }
 };
 
@@ -195,6 +201,30 @@ const request = async (base, endpoint, headers, body) => {
     if (!response.ok) {
       throw new Error(response.status);
     }
+    return response.json();
+  });
+};
+const cardanoipfs = async (endpoint, headers, body) => {
+  return await requestipfs(cardanoIPFSUrl, endpoint, headers, body);
+};
+
+const requestipfs = async (base, endpoint, headers, body) => {
+  return await fetch(base + endpoint, {
+    method: "POST",
+
+    headers: {
+      project_id: process.env.REACT_APP_BLOCKFROST_IPFS_KEY,
+      "Content-Type": `multipart/form-data;`,
+    },
+    body: body,
+    redirect: "follow",
+  }).then((response) => {
+    if (!response.ok) {
+      console.log(response);
+
+      throw new Error(response.status);
+    }
+
     return response.json();
   });
 };

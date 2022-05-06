@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@blockfrost/blockfrost-js": "^4.1.0",
     "@craco/craco": "^6.4.0",
     "@creativebulma/bulma-tooltip": "^1.2.0",
+    "@emurgo/cardano-serialization-lib-asmjs": "^10.0.4",
     "@emurgo/cardano-serialization-lib-browser": "file:./src/cardano/serialization-lib/@emurgo/cardano-serialization-lib-browser",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "bulma-checkradio": "^2.1.2",
