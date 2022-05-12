@@ -1,10 +1,13 @@
 import ErrorTypes from "./error.types";
-import { apiKey, cardanoIPFSUrl, cardanoUrl, ipfsapiKey } from "../../config";
+import { apiKey, cardanoIPFSUrl, cardanoUrl } from "../../config";
 import { fromHex, toString } from "../../utils/converter";
 /**
  * @param {string} asset - asset is a Concatenation of the policy_id and hex-encoded asset_name.
  * @throws COULD_NOT_FETCH_ASSET_DETAILS
  */
+// const API = BlockFrostAPI({
+//   project_id: process.env.REACT_APP_BLOCKFROST_IPFS_KEY,
+// });
 export const getAssetDetails = async (asset) => {
   try {
     const response = await cardano(`assets/${asset}`);
@@ -215,6 +218,8 @@ const requestipfs = async (base, endpoint, headers, body) => {
     headers: {
       project_id: process.env.REACT_APP_BLOCKFROST_IPFS_KEY,
       "Content-Type": `multipart/form-data;`,
+      "Content-Length": body.byteLength,
+      ...headers,
     },
     body: body,
     redirect: "follow",

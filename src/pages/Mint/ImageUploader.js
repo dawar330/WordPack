@@ -10,6 +10,29 @@ class ImageUpload extends React.Component {
 
   async _handleSubmit(e) {
     e.preventDefault();
+    var myHeaders = new Headers();
+    myHeaders.append("project_id", "ipfsgzYParmaY6xzZCz7gGEu9q1jgjPZYtH0");
+    myHeaders.append("Content-Type", "multipart/form-data");
+    myHeaders.append("Content-Length", `${this.state.imagePreviewUrl}`);
+
+    var formdata = new FormData();
+    formdata.append(
+      "",
+      this.state.file,
+      "Screenshot from 2022-04-12 05-12-04.png"
+    );
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch("https://ipfs.blockfrost.io/api/v0/ipfs/add", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   }
 
   _handleImageChange(e) {
@@ -19,9 +42,10 @@ class ImageUpload extends React.Component {
     let file = e.target.files[0];
 
     reader.onloadend = async () => {
-      const formData = new FormData();
-      formData.append("file", reader.result);
-      const res = await addIpfs(formData);
+      // const formData = new FormData();
+      // console.log(reader.result);
+      // formData.append("file", Buffer.from(reader.result));
+      // const res = await addIpfs(formData);
       // TODO: do something with -> this.state.file
       this.setState({
         file: file,
