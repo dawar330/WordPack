@@ -12,8 +12,8 @@ export default function Mint() {
   const [AssetName, setAssetName] = React.useState("");
   const [Quantity, setQuantity] = React.useState("");
   const [Author, setAuthor] = React.useState("");
-
-  async function MintToken() {
+  const [IPFS, setIPFS] = React.useState();
+  async function MintToken(IPFS) {
     const walletUtxos = await Wallet.getUtxos();
     const txHash = await MintAsset(
       {
@@ -24,7 +24,8 @@ export default function Mint() {
       },
       AssetName,
       Quantity,
-      Author
+      Author,
+      IPFS
     );
     console.log(txHash);
   }
@@ -33,7 +34,7 @@ export default function Mint() {
       <div className="mint-box zoom">
         <div>
           {" "}
-          <ImageUpload />
+          <ImageUpload setIPFS={setIPFS} />
           <label>Name</label>
           <input
             value={AssetName}
@@ -64,7 +65,7 @@ export default function Mint() {
         </div>
         <button
           onClick={async () => {
-            await MintToken();
+            await MintToken(IPFS);
           }}
         >
           MInt NFT

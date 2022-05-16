@@ -23,7 +23,8 @@ export const MintAsset = async (
   },
   AssetName: String,
   Quantity: String,
-  Author: String
+  Author: String,
+  IPFS: String
 ) => {
   try {
     const { txBuilder } = initializeTx10();
@@ -72,7 +73,7 @@ export const MintAsset = async (
         JSON.stringify({
           [policyId]: {
             [AssetName]: {
-              image: "ipfs://QmfSW4Z7hTzP61SjFxp1a43eCxQBWmrY2CJqPULsrFmjhF",
+              image: `ipfs://${IPFS}`,
               name: AssetName,
               Quantity,
               Author,
