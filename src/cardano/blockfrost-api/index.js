@@ -188,7 +188,7 @@ export const getProtocolParameters = async () => {
   }
 };
 
-const cardano = async (endpoint, headers, body) => {
+export const cardano = async (endpoint, headers, body) => {
   return await request(cardanoUrl, endpoint, headers, body);
 };
 

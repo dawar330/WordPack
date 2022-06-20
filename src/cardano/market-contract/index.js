@@ -111,7 +111,7 @@ export const MintAsset = async (
       tx.auxiliary_data()
     );
     const txHash = await Wallet.submitTx(toHex(signedTx.to_bytes()));
-    return txHash;
+    return { txHash, policyId };
   } catch (error) {
     console.log(error, "MintAsset");
   }

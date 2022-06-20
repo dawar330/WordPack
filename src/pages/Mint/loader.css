@@ -1,0 +1,72 @@
+.img1 {
+  animation: dotCarousel 3s infinite linear;
+}
+@keyframes dotCarousel {
+  0% {
+    transform: translate(0%, 0) scale(1);
+  }
+  25% {
+    transform: scale(1.25);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  75% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: translate(0%, 0) scale(1);
+  }
+}
+
+.img2 {
+  animation: im2 3s infinite linear;
+}
+@keyframes im2 {
+  0% {
+    transform: translate(0%, 0);
+  }
+  50% {
+    transform: translate(200%, 0);
+  }
+  100% {
+    transform: translate(0%, 0);
+  }
+}
+
+.img3 {
+  animation: im3 3s infinite linear;
+}
+@keyframes im3 {
+  0% {
+    transform: translate(0%, 0);
+  }
+  50% {
+    transform: translate(-200%, 0);
+  }
+  100% {
+    transform: translate(0%, 0);
+  }
+}
+.center {
+  position: absolute;
+  top: 50%;
+  margin-left: 50%;
+}
+.loading:empty {
+  width: 5em;
+  height: 5em;
+  border: 0.75em solid rgba(255, 255, 255, 0.25);
+  border-left: 0.75em solid #daa14b;
+  border-radius: 50%;
+  margin: auto auto;
+  animation: load8 1s infinite linear;
+}
+@keyframes load8 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

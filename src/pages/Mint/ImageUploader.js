@@ -1,8 +1,6 @@
-import { async } from "@firebase/util";
-import { addIpfs } from "cardano/blockfrost-api";
 import React from "react";
 
-import { create } from "ipfs-http-client";
+var { create } = require("ipfs-http-client");
 
 class ImageUpload extends React.Component {
   constructor(props) {
