@@ -5,6 +5,7 @@ import AllAssets from "./AllAssets";
 import Holdings from "./Holdings";
 import Listings from "./Listings";
 import Events from "./Events";
+import NotConnected from "./NotConnected";
 
 const Account = () => {
   const state_wallet = useSelector(state => state.wallet)
@@ -75,27 +76,4 @@ const Connected = ({state_wallet, state_collection}) => {
     </section>
   )
 }
-
-const NotConnected = () => {
-  return (
-    <section className="hero is-large">
-      <div className="hero-body">
-        <div className="container has-text-centered">
-          <h1>
-            <span className="icon" style={{fontSize:"100px", marginBottom:"50px"}}>
-              <i className="fas fa-plug"></i>
-            </span>
-          </h1>
-          <p className="title">
-            Connect your wallet
-          </p>
-          <p className="subtitle">
-            Do not have Nami Wallet? <a href="https://namiwallet.io/" target="_blank" rel="noreferrer">Download</a> now!
-          </p>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 export default Account;

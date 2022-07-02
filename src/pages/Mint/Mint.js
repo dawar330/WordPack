@@ -10,6 +10,7 @@ import { cardano } from "cardano/blockfrost-api";
 import Spinner from "./Loader";
 import { loadAssets } from "store/wallet/api";
 import { toHex } from "utils/converter";
+import NotConnected from "../Account/NotConnected";
 
 export async function waitForTransaction(tx, setisMinting) {
   try {
@@ -99,6 +100,10 @@ export default function Mint() {
     window.location.href = `/assets/${policyId}/${policyId}${toHex(AssetName)}`;
   }
   return (
+
+  !state_wallet.connected ? (
+      <NotConnected/>
+  ) : <>
     <div style={{ height: "85vh" }} className="mint-container">
       <Spinner loading={isMinting} />
       <div className="mint-box zoom">
@@ -107,40 +112,42 @@ export default function Mint() {
           <ImageUpload setIPFS={setIPFS} />
           <label>Name</label>
           <input
-            value={AssetName}
-            onChange={(e) => {
-              setAssetName(e.target.value);
-            }}
+              value={AssetName}
+              onChange={(e) => {
+                setAssetName(e.target.value);
+              }}
           />
         </div>
         <div>
           {" "}
           <label>Quantity</label>
           <input
-            value={Quantity}
-            onChange={(e) => {
-              setQuantity(e.target.value);
-            }}
+              value={Quantity}
+              onChange={(e) => {
+                setQuantity(e.target.value);
+              }}
           />
         </div>
         <div>
           {" "}
           <label>Author</label>
           <input
-            value={Author}
-            onChange={(e) => {
-              setAuthor(e.target.value);
-            }}
+              value={Author}
+              onChange={(e) => {
+                setAuthor(e.target.value);
+              }}
           />
         </div>
         <button
-          onClick={async () => {
-            await MintToken(IPFS);
-          }}
+            onClick={async () => {
+              await MintToken(IPFS);
+            }}
         >
           MInt NFT
         </button>
       </div>
     </div>
+  </>
+
   );
 }
