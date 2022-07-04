@@ -1,0 +1,2 @@
+(this["webpackJsonpvendere-frontend"]=this["webpackJsonpvendere-frontend"]||[]).push([[4],{737:function(n,e){function o(n){var e=new Error("Cannot find module '"+n+"'");throw e.code="MODULE_NOT_FOUND",e}o.keys=function(){return[]},o.resolve=o,n.exports=o,o.id=737}}]);
+//# sourceMappingURL=4.25ae32ff.chunk.js.map

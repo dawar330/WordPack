@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^6.4.0",
+    "@craco/craco": "^6.4.3",
     "@creativebulma/bulma-tooltip": "^1.2.0",
     "@emurgo/cardano-serialization-lib-asmjs": "^10.0.4",
     "@emurgo/cardano-serialization-lib-browser": "file:./src/cardano/serialization-lib/@emurgo/cardano-serialization-lib-browser",

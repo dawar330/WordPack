@@ -38,24 +38,21 @@ class ImageUpload extends React.Component {
   }
 
   render() {
-    let { imagePreviewUrl } = this.state;
+    var { state } = this.state;
     let $imagePreview = null;
-    if (imagePreviewUrl) {
-      $imagePreview = <img src={imagePreviewUrl} />;
-    } else {
-      $imagePreview = (
-        <div className="previewText">Please select an Image for Preview</div>
-      );
-    }
 
     return (
       <div className="previewComponent">
         <form onSubmit={(e) => this._handleSubmit(e)}>
-          <input
+        <label htmlFor="file" className="br_dropzone">
+<input
             className="fileInput"
             type="file"
+            id="file" name="file"
             onChange={(e) => this._handleImageChange(e)}
           />
+    <input type="text" id="fileName" name="fileName" placeholder={this.state.file ? this.state.file.name : 'Drop files to upload (or click)'} readOnly/>
+  </label>
         </form>
         <div className="imgPreview">{$imagePreview}</div>
       </div>

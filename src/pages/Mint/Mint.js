@@ -10,6 +10,7 @@ import { cardano } from "cardano/blockfrost-api";
 import Spinner from "./Loader";
 import { loadAssets } from "store/wallet/api";
 import { toHex } from "utils/converter";
+import NotConnected from "../Account/NotConnected";
 
 export async function waitForTransaction(tx, setisMinting) {
   try {
@@ -99,14 +100,18 @@ export default function Mint() {
     window.location.href = `/assets/${policyId}/${policyId}${toHex(AssetName)}`;
   }
   return (
+
+  !state_wallet.connected ? (
+      <NotConnected/>
+  ) : <>
     <div style={{ height: "85vh" }} className="mint-container">
       <Spinner loading={isMinting} />
       <div className="mint-box zoom">
         <div>
           {" "}
           <ImageUpload setIPFS={setIPFS} />
-          <label>Name</label>
-          <input
+          <input placeholder="Name"
+          className="input is-rounded m-y"
             value={AssetName}
             onChange={(e) => {
               setAssetName(e.target.value);
@@ -115,8 +120,9 @@ export default function Mint() {
         </div>
         <div>
           {" "}
-          <label>Quantity</label>
-          <input
+          <input placeholder="Quantity" 
+          type="number"
+          className="input is-rounded m-y"
             value={Quantity}
             onChange={(e) => {
               setQuantity(e.target.value);
@@ -125,8 +131,8 @@ export default function Mint() {
         </div>
         <div>
           {" "}
-          <label>Author</label>
-          <input
+          <input placeholder="Author"
+          className="input is-rounded m-y"
             value={Author}
             onChange={(e) => {
               setAuthor(e.target.value);
@@ -134,13 +140,17 @@ export default function Mint() {
           />
         </div>
         <button
+        className="button is-rounded is-info m-y m-auto"
           onClick={async () => {
             await MintToken(IPFS);
           }}
+          
         >
           MInt NFT
         </button>
       </div>
     </div>
+  </>
+
   );
 }
