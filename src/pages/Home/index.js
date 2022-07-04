@@ -76,16 +76,16 @@ const Splash = ({ listProjects }) => {
                     <div className="flip-container">
                       <ul className="flip-items">
                         <li>
-                          <span className="tag is-primary is-large">Buy</span>
+                          <span className="tag is-primary is-large m-y">Buy</span>
                         </li>
                         <li>
-                          <span className="tag is-primary is-large">Sell</span>
+                          <span className="tag is-primary is-large m-y">Sell</span>
                         </li>
                         <li>
-                          <span className="tag is-primary is-large">Trade</span>
+                          <span className="tag is-primary is-large m-y">Trade</span>
                         </li>
                         <li>
-                          <span className="tag is-primary is-large">
+                          <span className="tag is-primary is-large m-y">
                             Explore
                           </span>
                         </li>
