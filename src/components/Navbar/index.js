@@ -22,21 +22,6 @@ const Navbar = () => {
             Explore
           </Link>
 
-          <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">How to</a>
-            <div className="navbar-dropdown">
-              <Link className="navbar-item" to="/guide-buy">
-                <i className="fas fa-shopping-cart"></i> Buy a Cardano NFT?
-              </Link>
-              <Link className="navbar-item" to="/guide-sell">
-                <i className="fas fa-store"></i>Sell a Cardano NFT?
-              </Link>
-            </div>
-          </div>
-
-          <Link className="navbar-item" to="/about">
-            About Us
-          </Link>
           <Link className="navbar-item" to="/mint">
             Mint NFTS
           </Link>

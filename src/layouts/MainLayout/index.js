@@ -16,21 +16,21 @@ const MainLayout = ({ children }) => {
             <strong>WorkPack Labs</strong>, Follow Us on:{" "}
             <span className="social-media">
               <a
-                href="https://linkedin.com/company/martifylabs"
+                href="#"
                 target="_blank"
                 rel="noreferrer"
               >
                 <i className="fab fa-linkedin"></i>
               </a>
               <a
-                href="https://github.com/MartifyLabs"
+                href="#"
                 target="_blank"
                 rel="noreferrer"
               >
                 <i className="fab fa-github"></i>
               </a>
               <a
-                href="https://twitter.com/MartifyLabs"
+                href="#"
                 target="_blank"
                 rel="noreferrer"
               >

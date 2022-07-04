@@ -110,38 +110,41 @@ export default function Mint() {
         <div>
           {" "}
           <ImageUpload setIPFS={setIPFS} />
-          <label>Name</label>
-          <input
-              value={AssetName}
-              onChange={(e) => {
-                setAssetName(e.target.value);
-              }}
+          <input placeholder="Name"
+          className="input is-rounded m-y"
+            value={AssetName}
+            onChange={(e) => {
+              setAssetName(e.target.value);
+            }}
           />
         </div>
         <div>
           {" "}
-          <label>Quantity</label>
-          <input
-              value={Quantity}
-              onChange={(e) => {
-                setQuantity(e.target.value);
-              }}
+          <input placeholder="Quantity" 
+          type="number"
+          className="input is-rounded m-y"
+            value={Quantity}
+            onChange={(e) => {
+              setQuantity(e.target.value);
+            }}
           />
         </div>
         <div>
           {" "}
-          <label>Author</label>
-          <input
-              value={Author}
-              onChange={(e) => {
-                setAuthor(e.target.value);
-              }}
+          <input placeholder="Author"
+          className="input is-rounded m-y"
+            value={Author}
+            onChange={(e) => {
+              setAuthor(e.target.value);
+            }}
           />
         </div>
         <button
-            onClick={async () => {
-              await MintToken(IPFS);
-            }}
+        className="button is-rounded is-info m-y m-auto"
+          onClick={async () => {
+            await MintToken(IPFS);
+          }}
+          
         >
           MInt NFT
         </button>

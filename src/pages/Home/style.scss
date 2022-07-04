@@ -36,6 +36,59 @@
 .homepage .top-project-image {
   height: 100%;
 }
+.m-y{margin: 10px 0;}
+.m-auto{display: flex;
+justify-content: center;
+}
+
+
+.br_dropzone {
+  position: relative;
+  border: 1px solid rgba(#000, 0.1);
+  width: 100%;
+  height: 160px;
+  display: block;
+  border-radius: 4px;
+  box-sizing: border-box;
+  
+  background-image: linear-gradient(135deg,rgba(0,0,0,.03)25%, transparent 25%, transparent 50%, rgba(0,0,0,.03)50%, rgba(0,0,0,.03)75%, transparent 75%, transparent);
+  background-color: #FAFCFD;
+  background-size: 16px 16px;
+}
+
+.br_dropzone input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  font-size: 2rem;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.br_dropzone input[type=text] {
+  background: none;
+  border: none;
+  padding: 0.5em;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 2rem;
+  box-sizing: border-box;
+}
+
+.br_dropzone.dragover {
+  background-color: #eee;
+  border: 6px dashed rgba(#000, 0.1);
+}
+
+.previewText{text-align: center;}
+.fileInput{background: #ffffff;}
 .mint-container {
   height: 85%;
   display: flex;
@@ -43,11 +96,12 @@
 }
 .mint-box {
   display: flex-colunm;
-  height: 60%;
-  width: 20%;
+  height: auto;
+  width: 30%;
+  padding: 2%;
   align-self: center;
-  background-color: grayscale($color: #e6e3e3);
-  box-shadow: 5px 5px 5px 5px rgba(50, 46, 46, 0.2);
+  background-color: grayscale($color: #ffffff);
+  box-shadow: 1px 1px 20px 0px rgb(50 46 46 / 20%);
   border-radius: 10px;
   transition: all 0.6s;
 }
